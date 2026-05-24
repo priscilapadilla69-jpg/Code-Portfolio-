@@ -1,34 +1,35 @@
-#include <DHT.h>// Incluimos librería
-#define DHTPIN A0 // Definimos el pin digital donde se conecta el sensor
-#define DHTTYPE DHT11 // Dependiendo del tipo de sensor
- 
-// Inicializamos el sensor DHT11
-DHT dht(DHTPIN, DHTTYPE);
-void setup() {
- Serial.begin(9600);
-  // Comenzamos el sensor DHT
-  dht.begin();
-  
-}
-void loop() {
-      // Esperamos 5 segundos entre medidas
-  delay(1000);
-   
-  // Leemos la humedad relativa
-  float h = dht.readHumidity();
-  // Leemos la temperatura en grados centígrados (por defecto)
-  float t = dht.readTemperature();
+#include <DHT.h> // Include DHT library
 
-  // Comprobamos si ha habido algún error en la lectura
-  if (isnan(h) || isnan(t)) {
-    Serial.println("Error obteniendo los datos del sensor DHT11");
+#define DHTPIN A0       // Pin where the sensor is connected
+#define DHTTYPE DHT11   // Sensor type
+
+// Initialize the DHT11 sensor
+DHT dht(DHTPIN, DHTTYPE);
+
+void setup() {
+  Serial.begin(9600);
+  // Start the DHT sensor
+  dht.begin();
+}
+
+void loop() {
+  // Wait 1 second between readings
+  delay(1000);
+
+  // Read relative humidity
+  float humidity = dht.readHumidity();
+  // Read temperature in Celsius (default)
+  float temperature = dht.readTemperature();
+
+  // Check for reading errors
+  if (isnan(humidity) || isnan(temperature)) {
+    Serial.println("Error: Could not read data from DHT11 sensor");
     return;
   }
-  Serial.print("HR(%):");
-  Serial.print(h);
-  Serial.print("Temp:");
-  Serial.print(t);
-  Serial.print(" *C ");
 
- 
+  Serial.print("RH(%):");
+  Serial.print(humidity);
+  Serial.print(" Temp:");
+  Serial.print(temperature);
+  Serial.print(" *C ");
 }
